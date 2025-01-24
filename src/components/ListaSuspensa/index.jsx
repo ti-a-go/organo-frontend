@@ -1,6 +1,8 @@
 import "./ListaSuspensa.css"
 
 const ListaSuspensa = (props) => {
+    const listaDeOpções = props.itens.map(item => <option key={item}>{item}</option>)
+    
     return (
         <div className="lista-suspensa">
             <label>{props.label}</label>
@@ -10,7 +12,7 @@ const ListaSuspensa = (props) => {
                 value={props.valor}
             >
                 <option value=""></option>
-                {props.itens.map(item => <option key={item}>{item}</option>)}
+                {listaDeOpções}
             </select>
         </div>
     )
