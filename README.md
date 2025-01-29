@@ -1,3 +1,24 @@
+# Organo
+
+### This project is the result of a React course I took at [Alura](https://www.alura.com.br/).
+
+<img src="./doc/image-1.png" alt="screenshot 1 of Organo app" width="400"/>
+
+### It's a frontend app built with React and React-Query.
+
+<img src="./doc/image-2.png" alt="screenshot 2 of Organo app" width="400"/>
+
+<br>
+
+The app is just a list of people organized by team (Front-end, Data Science, Devops...) with a form to add new members and their photos to the teams.
+
+You can add new members! So go ahead and add yourself and your bodies :grinning:
+
+<img src="./doc/image-3.png" alt="screenshot 3 of Organo app" width="400"/>
+
+<br>
+
+
 # Set up backend
 
 This is a frontend application built with React and React-Query that uses data from a backend application.
