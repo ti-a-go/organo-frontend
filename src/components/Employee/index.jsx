@@ -6,7 +6,7 @@ const Employee = (props) => {
             <div className="header" style={{backgroundColor: props.backgroundColor}}>
                 <img src={props.image} alt={props.name}/>
             </div>
-            <div className="footer">
+            <div className="_footer">
                 <h4>{props.name}</h4>
                 <h5>{props.role}</h5>
             </div>
