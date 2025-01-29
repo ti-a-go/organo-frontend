@@ -1,6 +1,6 @@
 # Set up backend
 
-This is a frontend application build with React and React-Query that uses data from a backend application.
+This is a frontend application built with React and React-Query that uses data from a backend application.
 
 So, you need to run the backend before to start this application.
 
