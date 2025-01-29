@@ -1,6 +1,6 @@
-import './Rodape.css'
+import './Footer.css'
 
-const Rodape = () => {
+const Footer = () => {
     return (<footer className="footer">
         <section>
             <ul>
@@ -32,4 +32,4 @@ const Rodape = () => {
     </footer>)
 }
 
-export default Rodape
+export default Footer

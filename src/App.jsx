@@ -1,9 +1,8 @@
-import { useState } from "react"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import Banner from "./components/Banner"
-import Formulario from "./components/Formulario"
-import Time from './components/Time';
-import Rodape from "./components/Rodape";
+import Form from "./components/Form"
+import Team from './components/Team';
+import Footer from "./components/Footer";
 import './App.css'
 
 
@@ -21,14 +20,14 @@ const fetchEmployees = async () => {
 
 function App() {
 
-  const { data: times, isPending: isTeamsPending } = useQuery({
+  const { data: teams, isPending: isTeamsPending } = useQuery({
     queryKey: ["teams"],
     queryFn: () => {
       return fetchTeams()
     },
   })
 
-  const { data: colaboradores, isPending: isEmployeesPending } = useQuery({
+  const { data: employees, isPending: isEmployeesPending } = useQuery({
     queryKey: ["employees"],
     queryFn: () => {
       return fetchEmployees()
@@ -60,12 +59,12 @@ function App() {
   })
   
   const aoNovoColaboradorAdicionado = (colaborador) => {
-    const teams = times.filter(time => time.name === colaborador.team)
+    const foundTeams = teams.filter(team => team.name === colaborador.team)
     saveEmployeeMutation.mutate({
       name: colaborador.name,
       role: colaborador.role,
       image: colaborador.image,
-      team_id: teams[0].id,
+      team_id: foundTeams[0].id,
     })
   }
 
@@ -76,28 +75,28 @@ function App() {
   let listaDeTimes = <h1>Loading...</h1>
 
   if (!isEmployeesPending) {
-    listaDeTimes = times?.map(time => (
-      <Time
-        key={time.name}
-        nome={time.name}
-        corPrimaria={time.primary_color}
-        corSecundaria={time.secondary_color}
-        colaboradores={colaboradores?.filter(colaborador => colaborador.team_id === time.id)}
+    listaDeTimes = teams?.map(team => (
+      <Team
+        key={team.name}
+        name={team.name}
+        primaryColer={team.primary_color}
+        secondaryColor={team.secondary_color}
+        employees={employees?.filter(employee => employee.team_id === team.id)}
       />
     ))
   }
 
-  const nomesDosTimes = times?.map(time => time.name)
+  const nomesDosTimes = teams?.map(team => team.name)
   
   return (
     <div className='App'>
       <Banner />
-      <Formulario 
-        times={nomesDosTimes} 
-        aoColaboradorCadastrado={colaborador => aoNovoColaboradorAdicionado(colaborador)} 
+      <Form 
+        teams={nomesDosTimes} 
+        onEmployeeAdded={employee => aoNovoColaboradorAdicionado(employee)} 
       />
       {listaDeTimes}
-      <Rodape />
+      <Footer />
     </div>
   )
 }

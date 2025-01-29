@@ -1,4 +1,4 @@
-.botao {
+.button {
     background-color: #6278f7;
     border-radius: 10px;
     font-weight: 700;
@@ -10,6 +10,6 @@
     margin: 32px 0;
 }
 
-.botao:hover {
+.button:hover {
     color: #95ffd4;
 }
