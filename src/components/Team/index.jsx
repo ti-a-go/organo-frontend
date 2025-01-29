@@ -9,7 +9,7 @@ const Team = (props) => {
             className='team' 
             style={{ backgroundColor: props.secondaryColor }}
         > 
-            <h3 style={{borderColor:  props.primaryColor}}>{props.nome}</h3>
+            <h3 style={{borderColor: props.primaryColor}}>{props.name}</h3>
             
             <div className='employees'>
                 {props.employees.map( employee => (
