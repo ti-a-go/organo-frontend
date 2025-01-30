@@ -14,11 +14,13 @@ const Team = (props) => {
             <div className='employees'>
                 {props.employees.map( employee => (
                     <Employee 
+                        id={employee.id}
                         backgroundColor={props.primaryColor} 
                         key={employee.name} 
                         name={employee.name} 
                         role={employee.role} 
                         image={employee.image}
+                        onDelete={props.onDeleteEmployee}
                     />
                 ))}
             </div>

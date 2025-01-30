@@ -3,61 +3,30 @@ import Banner from "./components/Banner"
 import Form from "./components/Form"
 import Team from './components/Team';
 import Footer from "./components/Footer";
+import { fetchTeams, fetchEmployees, saveEmployee, onSaveEmployeeFailure, onSaveEmployeeSuccess, deleteEmployee, onDeleteEmployeeFailure, onDeleteEmployeeSuccess } from "./network/queries"
 import './App.css'
 
-
-const fetchTeams = async () => {
-  const results = await fetch(`http://localhost:8000/teams/`)
-
-  return await results.json()
-}
-
-const fetchEmployees = async () => {
-  const results = await fetch(`http://localhost:8000/employees/`)
-
-  return await results.json()
-}
 
 function App() {
 
   const { data: teams, isPending: isTeamsPending } = useQuery({
     queryKey: ["teams"],
-    queryFn: () => {
-      return fetchTeams()
-    },
+    queryFn: fetchTeams,
   })
 
   const { data: employees, isPending: isEmployeesPending } = useQuery({
     queryKey: ["employees"],
-    queryFn: () => {
-      return fetchEmployees()
-    },
+    queryFn: fetchEmployees,
   })
 
   const queryClient = useQueryClient()
 
   const saveEmployeeMutation = useMutation({
-    mutationFn: (postData) => {
-      return fetch("http://localhost:8000/employees", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(postData)
-      }).then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed request to create new employee.")
-        }
-
-        return response.json()
-      })
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries(["employees"])
-    },
-    onError: () => {
-      console.error("Employee was not created due to request failure.")
-    }
+    mutationFn: saveEmployee,
+    onSuccess: () => onSaveEmployeeSuccess(queryClient),
+    onError: onSaveEmployeeFailure
   })
-  
+
   const aoNovoColaboradorAdicionado = (colaborador) => {
     const foundTeams = teams.filter(team => team.name === colaborador.team)
     saveEmployeeMutation.mutate({
@@ -66,6 +35,16 @@ function App() {
       image: colaborador.image,
       team_id: foundTeams[0].id,
     })
+  }
+
+  const deleteEmployeeMutation = useMutation({
+    mutationFn: deleteEmployee,
+    onSuccess: () => onDeleteEmployeeSuccess(queryClient),
+    onError: onDeleteEmployeeFailure
+  })
+
+  function handleDeleteEmployee(id) {
+    deleteEmployeeMutation.mutate(id)
   }
 
   if (isTeamsPending) {
@@ -82,18 +61,19 @@ function App() {
         primaryColer={team.primary_color}
         secondaryColor={team.secondary_color}
         employees={employees?.filter(employee => employee.team_id === team.id)}
+        onDeleteEmployee={handleDeleteEmployee}
       />
     ))
   }
 
   const nomesDosTimes = teams?.map(team => team.name)
-  
+
   return (
     <div className='App'>
       <Banner />
-      <Form 
-        teams={nomesDosTimes} 
-        onEmployeeAdded={employee => aoNovoColaboradorAdicionado(employee)} 
+      <Form
+        teams={nomesDosTimes}
+        onEmployeeAdded={employee => aoNovoColaboradorAdicionado(employee)}
       />
       {listaDeTimes}
       <Footer />
