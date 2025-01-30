@@ -3,7 +3,7 @@ import Banner from "./components/Banner"
 import Form from "./components/Form"
 import Team from './components/Team';
 import Footer from "./components/Footer";
-import { fetchTeams, fetchEmployees, saveEmployee, onSaveEmployeeFailure, onSaveEmployeeSuccess, deleteEmployee, onDeleteEmployeeFailure, onDeleteEmployeeSuccess } from "./network/queries"
+import { fetchTeams, fetchEmployees, saveEmployee, onSaveEmployeeFailure, onSaveEmployeeSuccess, deleteEmployee, onDeleteEmployeeFailure, onDeleteEmployeeSuccess, updateTeam, onUpdateTeamFailure, onUpdateTeamSuccess } from "./network/queries"
 import './App.css'
 
 
@@ -43,8 +43,21 @@ function App() {
     onError: onDeleteEmployeeFailure
   })
 
+  const updateTeamMutation = useMutation({
+    mutationFn: updateTeam,
+    onSuccess: () => onUpdateTeamSuccess(queryClient),
+    onError: onUpdateTeamFailure
+  })
+
   function handleDeleteEmployee(id) {
     deleteEmployeeMutation.mutate(id)
+  }
+
+  function changeTeamColor(color, id) {
+    let team_to_be_updated = teams.find((team) => team.id == id)
+    console.log(team_to_be_updated)
+    team_to_be_updated.primary_color = color
+    updateTeamMutation.mutate(team_to_be_updated)
   }
 
   if (isTeamsPending) {
@@ -58,10 +71,11 @@ function App() {
       <Team
         key={team.name}
         name={team.name}
-        primaryColer={team.primary_color}
-        secondaryColor={team.secondary_color}
+        id={team.id}
+        color={team.primary_color}
         employees={employees?.filter(employee => employee.team_id === team.id)}
         onDeleteEmployee={handleDeleteEmployee}
+        changeColor={changeTeamColor}
       />
     ))
   }

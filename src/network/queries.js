@@ -41,8 +41,27 @@ export const deleteEmployee = (id) => {
 }
 
 export const onDeleteEmployeeSuccess = (queryClient) => {
-  console.log("Invalidating queries.............")
   queryClient.invalidateQueries(["employees"])
 }
 
 export const onDeleteEmployeeFailure = () => console.error("Employee was not deleted due to request failure.")
+
+
+export const updateTeam = (team) => {
+  return fetch(`http://localhost:8000/teams/${team.id}`, {
+      method: "PATCH",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(team)
+    }).then((response) => {
+    
+      if (!response.ok) {
+        throw new Error("Failed request to delete employee.")
+      }
+  })
+}
+
+export const onUpdateTeamSuccess = (queryClient) => {
+  queryClient.invalidateQueries(["teams"])
+}
+
+export const onUpdateTeamFailure = () => console.error("Team was not updated due to request failure.")

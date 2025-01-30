@@ -1,4 +1,5 @@
 import './Team.css'
+import hexToRgba from 'hex-to-rgba';
 import Employee from '../Employee'
 
 const Team = (props) => {
@@ -7,15 +8,22 @@ const Team = (props) => {
         && 
         <section 
             className='team' 
-            style={{ backgroundColor: props.secondaryColor }}
-        > 
-            <h3 style={{borderColor: props.primaryColor}}>{props.name}</h3>
+            style={{ backgroundColor: hexToRgba(props.color, '0.6') }}
+        >
+            <input 
+                type='color' 
+                className='input-color' 
+                value={props.color} 
+                onChange={evento => props.changeColor(evento.target.value, props.id)} 
+            />
+
+            <h3 style={{borderColor: props.color}}>{props.name}</h3>
             
             <div className='employees'>
                 {props.employees.map( employee => (
                     <Employee 
                         id={employee.id}
-                        backgroundColor={props.primaryColor} 
+                        backgroundColor={props.color} 
                         key={employee.name} 
                         name={employee.name} 
                         role={employee.role} 
