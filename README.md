@@ -1,18 +1,11 @@
 # Backlog
 
-### 1. Change Team's color
-
-- Add color input to change team's color.
-- Add mutation to save a team when change team's color.
-- Change two properties (`primary_color` and `secondary_color`) on team by only one `color`.
-- Set background color of team's panel by applying a transparency on the `color` property.
-
-### 2. Create new Team
+### 1. Create new Team
 
 - Add form to create new team.
 - Add mutation to create a new team.
 
-### 3. Mark an Employee as favorite
+### 2. Mark an Employee as favorite
 
 - Add `is_favorite` property on employee.
 - Add button to toggle an employee favorite property
